@@ -1,0 +1,15 @@
+,value
+train_bags_benign,148
+train_bags_malignant,71
+train_n_patients,209
+val_bags_benign,26
+val_bags_malignant,12
+val_n_patients,38
+test_bags_benign,56
+test_bags_malignant,11
+test_n_patients,65
+total_bags,324
+total_unique_patients,312
+bags_with_ceus_pair,324
+unpaired_bmode_frames,250
+unpaired_doppler_frames,409

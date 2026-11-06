@@ -1,0 +1,101 @@
+# B2CEUS-Net — Review 1 configuration
+# All paths are resolved relative to the repo root (b2ceus-net/) unless absolute.
+
+seed: 42
+device: auto  # auto | cuda | mps | cpu
+
+data:
+  dataset_root: ../Data/dataset      # contains Malignant/ and Benign/, used for train+val
+  test_root: ../Data/TestData        # official held-out patients, never used for train/val
+  clinical_csv: ../labels/clinical_data.csv
+  test_clinical_csv: ../labels/test_clinical_data.csv
+  image_size: 224
+  seg_image_size: 256
+  val_fraction: 0.15                 # patient-level, stratified by malignancy
+  split_seed: 42
+  split_cache: ./cache/splits.json
+  index_cache: ./cache/bag_index.json
+  # Every bag has one privileged CEUS+B-mode pair (Original/ZY_left = CEUS,
+  # Original/ZY_right = simultaneously captured B-mode). Extra numbered frames
+  # (1.jpg, 2.jpg, ...) are B-mode/Doppler-only, no CEUS counterpart.
+  include_doppler_frames: true       # grayscale-convert + include colorized Doppler frames
+  doppler_colorfulness_threshold: 3.0
+  num_workers: 0    # multiprocessing DataLoader workers deadlocked on this 8GB Mac (opencv/fork); keep 0
+
+pretrain:
+  backbone_init: imagenet            # imagenet | mmotu | none
+  mmotu:
+    enabled: false                   # flip on once mmotu.root is populated
+    root: null                       # e.g. /path/to/MMOTU
+    image_size: 224
+    epochs: 20
+    batch_size: 32
+    lr: 1.0e-3
+    checkpoint_out: ./checkpoints/mmotu_pretrained.pt
+
+segmentation:
+  arch: unet
+  in_channels: 1
+  base_channels: 32
+  epochs: 40
+  batch_size: 8
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  loss: dice_bce
+  early_stop_patience: 10
+  out_dir: ./checkpoints/segmentation
+  generalization_eval_root: test     # evaluate trained seg model on held-out TestData bags
+
+baseline:
+  backbone: resnet18
+  pretrained: imagenet
+  epochs: 30
+  batch_size: 16
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  freeze_backbone_epochs: 2
+  early_stop_patience: 8
+  out_dir: ./checkpoints/baseline
+
+distillation:
+  teacher:
+    backbone: resnet18
+    fusion: concat                   # concat | film
+    epochs: 20
+    lr: 3.0e-4
+  student:
+    backbone: resnet18
+  epochs: 30
+  batch_size: 16
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  feature_loss: mse                  # mse | cosine
+  feature_loss_weight: 1.0
+  kd_logit_weight: 0.5
+  kd_temperature: 4.0
+  hard_label_weight: 1.0
+  early_stop_patience: 10
+  out_dir: ./checkpoints/distill
+
+# --- Stretch hooks (Review 2). Interfaces scaffolded now, not trained. ---
+uncertainty:
+  enabled_stub: true
+  method: mc_dropout                 # mc_dropout (now) | evidential (Review 2)
+  mc_passes: 20
+  recommend_ceus_threshold: 0.15     # predictive variance above this -> "recommend real CEUS"
+
+synthetic_ceus:
+  enabled_stub: true
+  decoder: null                      # Review 2: fill in decoder arch
+  loss: null                         # Review 2: fill in reconstruction loss
+
+viz:
+  figures_dir: ./figures
+  dpi: 200
+
+results:
+  table_path: ./results/metrics_review1.csv
+
+logging:
+  tensorboard: true
+  log_dir: ./runs

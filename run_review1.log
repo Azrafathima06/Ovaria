@@ -1,0 +1,141 @@
+[run_review1] device=mps
+
+=== 1/5 EDA ===
+
+=== 2/5 Segmentation ===
+[seg] train=444 val=83 test(generalization)=132
+[seg] epoch 001 train_loss=0.5506 val_loss=0.4238 val_dice=0.6596 val_iou=0.5260 *
+[seg] epoch 002 train_loss=0.4003 val_loss=0.4234 val_dice=0.5996 val_iou=0.4711
+[seg] epoch 003 train_loss=0.3262 val_loss=0.3050 val_dice=0.7104 val_iou=0.5863 *
+[seg] epoch 004 train_loss=0.2816 val_loss=0.2751 val_dice=0.7185 val_iou=0.5936 *
+[seg] epoch 005 train_loss=0.2611 val_loss=0.2643 val_dice=0.7354 val_iou=0.6105 *
+[seg] epoch 006 train_loss=0.2424 val_loss=0.2984 val_dice=0.6663 val_iou=0.5468
+[seg] epoch 007 train_loss=0.2331 val_loss=0.3349 val_dice=0.6154 val_iou=0.4999
+[seg] epoch 008 train_loss=0.2335 val_loss=0.2643 val_dice=0.7190 val_iou=0.5916
+[seg] epoch 009 train_loss=0.2168 val_loss=0.2146 val_dice=0.7736 val_iou=0.6609 *
+[seg] epoch 010 train_loss=0.2199 val_loss=0.3065 val_dice=0.6909 val_iou=0.5617
+[seg] epoch 011 train_loss=0.2109 val_loss=0.2072 val_dice=0.7798 val_iou=0.6661 *
+[seg] epoch 012 train_loss=0.1982 val_loss=0.2137 val_dice=0.7680 val_iou=0.6572
+[seg] epoch 013 train_loss=0.2001 val_loss=0.2256 val_dice=0.7560 val_iou=0.6451
+[seg] epoch 014 train_loss=0.1981 val_loss=0.2527 val_dice=0.7370 val_iou=0.6175
+[seg] epoch 015 train_loss=0.1923 val_loss=0.2070 val_dice=0.7804 val_iou=0.6720 *
+[seg] epoch 016 train_loss=0.1952 val_loss=0.2159 val_dice=0.7762 val_iou=0.6643
+[seg] epoch 017 train_loss=0.1864 val_loss=0.2330 val_dice=0.7419 val_iou=0.6313
+[seg] epoch 018 train_loss=0.1806 val_loss=0.2016 val_dice=0.7860 val_iou=0.6783 *
+[seg] epoch 019 train_loss=0.1767 val_loss=0.1785 val_dice=0.8057 val_iou=0.7088 *
+[seg] epoch 020 train_loss=0.1822 val_loss=0.2189 val_dice=0.7624 val_iou=0.6525
+[seg] epoch 021 train_loss=0.1780 val_loss=0.1906 val_dice=0.7946 val_iou=0.6907
+[seg] epoch 022 train_loss=0.1719 val_loss=0.1802 val_dice=0.8075 val_iou=0.7058 *
+[seg] epoch 023 train_loss=0.1843 val_loss=0.1885 val_dice=0.8024 val_iou=0.6981
+[seg] epoch 024 train_loss=0.1699 val_loss=0.1961 val_dice=0.7950 val_iou=0.6865
+[seg] epoch 025 train_loss=0.1700 val_loss=0.1939 val_dice=0.7931 val_iou=0.6864
+[seg] epoch 026 train_loss=0.1691 val_loss=0.2188 val_dice=0.7722 val_iou=0.6650
+[seg] epoch 027 train_loss=0.1687 val_loss=0.1976 val_dice=0.7869 val_iou=0.6818
+[seg] epoch 028 train_loss=0.1713 val_loss=0.1958 val_dice=0.7863 val_iou=0.6862
+[seg] epoch 029 train_loss=0.1661 val_loss=0.1828 val_dice=0.8033 val_iou=0.7030
+[seg] epoch 030 train_loss=0.1567 val_loss=0.1936 val_dice=0.7890 val_iou=0.6875
+[seg] epoch 031 train_loss=0.1613 val_loss=0.1808 val_dice=0.8005 val_iou=0.7037
+[seg] epoch 032 train_loss=0.1570 val_loss=0.1955 val_dice=0.7988 val_iou=0.7005
+[seg] early stopping at epoch 32
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[seg] GENERALIZATION (held-out TestData patients): dice=0.7091 iou=0.5875
+
+=== 3/5 Baseline classifier ===
+[baseline] train=663 val=121 test=199 images
+[baseline] epoch 001 train_loss=0.6304 val_loss=0.6243 val_auc=0.5865 val_acc=0.6842 *
+[baseline] epoch 002 train_loss=0.6292 val_loss=0.6223 val_auc=0.6346 val_acc=0.6842 *
+[baseline] epoch 003 train_loss=0.6022 val_loss=0.6008 val_auc=0.6859 val_acc=0.6842 *
+[baseline] epoch 004 train_loss=0.5349 val_loss=0.6311 val_auc=0.6827 val_acc=0.7895
+[baseline] epoch 005 train_loss=0.4838 val_loss=0.6412 val_auc=0.7276 val_acc=0.7632 *
+[baseline] epoch 006 train_loss=0.4117 val_loss=0.6858 val_auc=0.7244 val_acc=0.7368
+[baseline] epoch 007 train_loss=0.3562 val_loss=0.7818 val_auc=0.7244 val_acc=0.7368
+[baseline] epoch 008 train_loss=0.3198 val_loss=0.7985 val_auc=0.7147 val_acc=0.7105
+[baseline] epoch 009 train_loss=0.2983 val_loss=0.8382 val_auc=0.6923 val_acc=0.7632
+[baseline] epoch 010 train_loss=0.2661 val_loss=0.8828 val_auc=0.7468 val_acc=0.7105 *
+[baseline] epoch 011 train_loss=0.2359 val_loss=0.9013 val_auc=0.7468 val_acc=0.7895 *
+[baseline] epoch 012 train_loss=0.2141 val_loss=0.9344 val_auc=0.6827 val_acc=0.7368
+[baseline] epoch 013 train_loss=0.1674 val_loss=1.0992 val_auc=0.6987 val_acc=0.7105
+[baseline] epoch 014 train_loss=0.1364 val_loss=1.1920 val_auc=0.7179 val_acc=0.7105
+[baseline] epoch 015 train_loss=0.1400 val_loss=1.0921 val_auc=0.7244 val_acc=0.7895
+[baseline] epoch 016 train_loss=0.1159 val_loss=1.1323 val_auc=0.7179 val_acc=0.7632
+[baseline] epoch 017 train_loss=0.1373 val_loss=1.2681 val_auc=0.7340 val_acc=0.7368
+[baseline] epoch 018 train_loss=0.1052 val_loss=1.1137 val_auc=0.7756 val_acc=0.7895 *
+[baseline] epoch 019 train_loss=0.0864 val_loss=1.1189 val_auc=0.7500 val_acc=0.6842
+[baseline] epoch 020 train_loss=0.0629 val_loss=1.2024 val_auc=0.7628 val_acc=0.7368
+[baseline] epoch 021 train_loss=0.0785 val_loss=1.1302 val_auc=0.7468 val_acc=0.7895
+[baseline] epoch 022 train_loss=0.0555 val_loss=1.2630 val_auc=0.7436 val_acc=0.7368
+[baseline] epoch 023 train_loss=0.0682 val_loss=1.3554 val_auc=0.7692 val_acc=0.7368
+[baseline] epoch 024 train_loss=0.0645 val_loss=1.3783 val_auc=0.7788 val_acc=0.7368 *
+[baseline] epoch 025 train_loss=0.0573 val_loss=1.6082 val_auc=0.7724 val_acc=0.7105
+[baseline] epoch 026 train_loss=0.0569 val_loss=1.2692 val_auc=0.7468 val_acc=0.7632
+[baseline] epoch 027 train_loss=0.0387 val_loss=1.6293 val_auc=0.6827 val_acc=0.7105
+[baseline] epoch 028 train_loss=0.0588 val_loss=1.9099 val_auc=0.6923 val_acc=0.7105
+[baseline] epoch 029 train_loss=0.0498 val_loss=1.3109 val_auc=0.7596 val_acc=0.7368
+[baseline] epoch 030 train_loss=0.0440 val_loss=1.4227 val_auc=0.7821 val_acc=0.7632 *
+[baseline] TEST: acc=0.7761 f1=0.4828 auc=0.8279
+
+=== 4/5 Distillation (teacher + student) ===
+[teacher] train=219 val=38 paired bags
+[teacher] epoch 001 train_loss=0.6543 val_auc=0.7724 val_acc=0.6842 *
+[teacher] epoch 002 train_loss=0.6056 val_auc=0.7244 val_acc=0.6842
+[teacher] epoch 003 train_loss=0.5453 val_auc=0.7885 val_acc=0.6842 *
+[teacher] epoch 004 train_loss=0.4993 val_auc=0.7981 val_acc=0.8421 *
+[teacher] epoch 005 train_loss=0.4167 val_auc=0.8333 val_acc=0.8158 *
+[teacher] epoch 006 train_loss=0.3493 val_auc=0.7917 val_acc=0.8684
+[teacher] epoch 007 train_loss=0.3079 val_auc=0.7500 val_acc=0.7368
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[teacher] found completed teacher checkpoint (teacher_best.pt) — reusing, skipping retraining
+[student] train=663 val=121 test=199 images
+[student] epoch 001 loss=0.8401 (hard=0.6145 kd=0.2587 feat=0.0962) val_auc=0.6891 *
+[student] epoch 002 loss=0.7326 (hard=0.5517 kd=0.1785 feat=0.0917) val_auc=0.7019 *
+[student] epoch 003 loss=0.6663 (hard=0.5095 kd=0.1360 feat=0.0888) val_auc=0.7212 *
+[student] epoch 004 loss=0.6245 (hard=0.4750 kd=0.1315 feat=0.0838) val_auc=0.7147
+[student] epoch 005 loss=0.5913 (hard=0.4441 kd=0.1263 feat=0.0840) val_auc=0.7853 *
+[student] epoch 006 loss=0.5333 (hard=0.3927 kd=0.1173 feat=0.0819) val_auc=0.7788
+[student] epoch 007 loss=0.5067 (hard=0.3657 kd=0.1269 feat=0.0775) val_auc=0.7885 *
+[student] epoch 008 loss=0.4710 (hard=0.3280 kd=0.1323 feat=0.0769) val_auc=0.7532
+[student] epoch 009 loss=0.4584 (hard=0.3252 kd=0.1224 feat=0.0720) val_auc=0.7692
+[student] epoch 010 loss=0.4362 (hard=0.2966 kd=0.1391 feat=0.0701) val_auc=0.7660
+[student] epoch 011 loss=0.4179 (hard=0.2878 kd=0.1289 feat=0.0657) val_auc=0.7788
+[student] epoch 012 loss=0.3803 (hard=0.2494 kd=0.1344 feat=0.0638) val_auc=0.7724
+[student] epoch 013 loss=0.3665 (hard=0.2286 kd=0.1523 feat=0.0617) val_auc=0.7179
+[student] epoch 014 loss=0.3651 (hard=0.2380 kd=0.1374 feat=0.0584) val_auc=0.7372
+[student] epoch 015 loss=0.3512 (hard=0.2189 kd=0.1515 feat=0.0565) val_auc=0.7628
+[student] epoch 016 loss=0.3468 (hard=0.2161 kd=0.1545 feat=0.0534) val_auc=0.7276
+[student] epoch 017 loss=0.3236 (hard=0.2015 kd=0.1426 feat=0.0508) val_auc=0.7244
+[student] early stopping at epoch 17
+[student] TEST: acc=0.8507 f1=0.4444 auc=0.8393
+[teacher-oracle] TEST (uses real CEUS, upper bound only): acc=0.8657 f1=0.5263 auc=0.8198
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[run_review1] device=mps
+
+=== 1/5 EDA ===
+
+=== 2/5 Segmentation ===
+[seg] found completed run (unet_best.pt + segmentation_results.json) — reusing, skipping retraining
+
+=== 3/5 Baseline classifier ===
+[baseline] found completed run (baseline_best.pt + baseline_results.json) — reusing, skipping retraining
+
+=== 4/5 Distillation (teacher + student) ===
+[distill] found completed run (distill_results.json) — reusing, skipping retraining
+
+=== 5/5 Uncertainty demo + Grad-CAM wow figure ===
+[uncertainty] 0/199 test images (0.0%) flagged 'recommend real CEUS'
+
+========================================================================
+REVIEW 1 FINAL SUMMARY
+========================================================================
+                      model  accuracy       f1      auc  n_bags
+          Baseline (B-mode)  0.776119 0.482759 0.827922    67.0
+ Distilled student (B-mode)  0.850746 0.444444 0.839286    67.0
+     Teacher oracle (+CEUS)  0.865672 0.526316 0.819805    67.0
+Reference benchmark (paper)  0.730000 0.650000      NaN     NaN
+------------------------------------------------------------------------
+Distillation delta over baseline: accuracy +0.075, f1 -0.038, auc +0.011
+Segmentation: val dice=0.807, generalization (held-out TestData) dice=0.709
+Uncertainty head: 0.0% of test images flagged for real CEUS
+========================================================================
+
+Full summary written to /Users/azra/Desktop/ovaries/b2ceus-net/results/review1_summary.json
+Figures written to /Users/azra/Desktop/ovaries/b2ceus-net/figures

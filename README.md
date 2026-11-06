@@ -1,6 +1,6 @@
 <div align="center">
 
-# B2CEUS-Net
+# Ovaria
 
 ### Ovarian tumour malignancy prediction from **B-mode ultrasound only**, using CEUS and clinical findings as *privileged information* during training
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 💡 The idea in one minute
+## Idea
 
 Contrast-enhanced ultrasound (**CEUS**) is very informative for telling malignant from benign ovarian tumours, but it needs a contrast agent, extra time and extra equipment. Ordinary **B-mode** ultrasound is available everywhere.
 
@@ -29,7 +29,7 @@ The privileged heads are thrown away at inference, so they cost **nothing** at t
 
 ---
 
-## 🗂 Dataset at a glance
+## Dataset
 
 | | Train / val pool | Held-out test cohort | Total |
 |---|---|---|---|
@@ -45,11 +45,11 @@ The privileged heads are thrown away at inference, so they cost **nothing** at t
   <img src="paper_assets/figures/review1/pairing_composition.png" width="45%">
 </p>
 
-> ⚠️ **The patient images / labels are not included in this repository** (`Data/` and `labels/` are git-ignored). Only code, configs, figures and result tables are public.
+> **Note:** The patient images / labels are not included in this repository** (`Data/` and `labels/` are git-ignored). Only code, configs, figures and result tables are public.
 
 ---
 
-# 📘 Review 1 — Baseline, distillation, segmentation
+# Review 1: Baseline, Distillation and Segmentation
 
 What was built:
 
@@ -59,7 +59,7 @@ What was built:
 4. **Teacher–student distillation** (frozen CEUS+B-mode teacher → B-mode student: CE + KD-logits + feature MSE).
 5. **Grad-CAM** of the B-mode student.
 
-### Review 1 results (held-out test set: 67 bags, 11 malignant)
+### Results (held-out test set: 67 bags, 11 malignant)
 
 | Model | Accuracy | F1 | AUC |
 |---|---|---|---|
@@ -83,7 +83,7 @@ What was built:
   <em>Grad-CAM of the B-mode-only student next to the real CEUS lesion.</em>
 </p>
 
-### Honest critique of Review 1 (this is what drove Review 2)
+### Limitations of Review 1 (these motivated Review 2)
 
 - The +0.011 AUC from distillation is **noise**: with 67 bags / 11 positives the bootstrap AUC CI is about ±0.11.
 - The **teacher (0.820) was not better than the students**, so there was little for distillation to transfer.
@@ -92,9 +92,9 @@ What was built:
 
 ---
 
-# 📗 Review 2 — Fixing the weaknesses, with rigorous evaluation
+# Review 2: Improvements and Rigorous Evaluation
 
-## What's new
+## Additions
 
 | # | Addition | Idea |
 |---|---|---|
@@ -120,7 +120,7 @@ Same ResNet-18 (ImageNet init), Adam 3e-4, batch 16, ≤12 epochs, early stoppin
 
 ## Results
 
-### A. Primary: 5-fold CV, pooled out-of-fold predictions
+### A. 5-fold cross-validation (primary)
 
 | Variant | OOF AUC [95 % CI] | Fold AUC (mean ± SD) | AUPRC | Sens | Spec | Brier | ECE | ΔAUC vs baseline [95 % CI] | p | Folds better |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -139,7 +139,7 @@ Same ResNet-18 (ImageNet init), Adam 3e-4, batch 16, ≤12 epochs, early stoppin
 
 Fold 2 is a hard split for **every** model (AUC ≈ 0.53–0.67) – a reminder of how fragile small-cohort estimates are.
 
-### C. Held-out test cohort, 5-fold-model ensembles
+### C. Held-out test cohort (5-fold ensembles)
 
 | Variant | Ensemble AUC | Single-model AUC | AUPRC | Acc | Brier | ECE |
 |---|---|---|---|---|---|---|
@@ -153,7 +153,7 @@ The baseline ensemble is already strong and the ordering does **not** match the 
 
 <p align="center"><img src="paper_assets/figures/fig_test_roc_5model.png" width="55%"></p>
 
-### B. 3-seed ablation on the test set (11 variants)
+### B. 3-seed ablation (test set, 11 variants)
 
 | Variant | Test AUC (mean ± SD) | Ensemble AUC [95 % CI] |
 |---|---|---|
@@ -179,7 +179,7 @@ SSIM 0.18 ± 0.06 · Pearson r 0.41 ± 0.20 against the real CEUS. The decoder c
 
 <p align="center"><img src="paper_assets/figures/fig_hallucination_gradcam.png" width="60%"></p>
 
-### Uncertainty → "recommend real CEUS"
+### Uncertainty and deferral to real CEUS
 
 Using ensemble entropy + seed disagreement, accuracy rises from **0.78** (all bags) to **≈0.92** at 64 % coverage and **≈1.0** at 40 % coverage, i.e. the model can hand its most uncertain cases to real CEUS.
 
@@ -187,23 +187,23 @@ Using ensemble entropy + seed disagreement, accuracy rises from **0.78** (all ba
 
 ---
 
-## ✅ Honest take-aways
+## Conclusions
 
-**What the evidence supports**
+**Supported by the evidence**
 1. Privileged supervision moves AUC in the **same direction** across all three protocols (+0.01 to +0.05) and **improves calibration** (CV ECE 0.087 → 0.047–0.062).
 2. Combining signals gives the best mean fold AUC (0.828) and the lowest fold-to-fold spread among the privileged variants except feature-only.
 3. **Ensembling** (≈ +0.03 AUC, ~2× lower variance) and **calibration** are more reliable gains than any single loss term.
 
-**What it does *not* support**
+**Not supported**
 - **No improvement is statistically significant** – every 95 % CI on ΔAUC includes 0 (smallest paired p = 0.12 across folds, 0.17 on test). We deliberately did **not** keep tuning until a number crossed significance.
 - This is **not** state-of-the-art and not a clinical validation.
 
-**Negative results (also worth reporting)**
+**Negative results**
 - Stacking *all* auxiliary losses at weight 1 collapses performance (AUC 0.70).
 - Logit KD and teacher-confidence weighting did not help (teacher is fit on the same bags, so it is uniformly confident).
 - The CEUS teacher is no better than the B-mode student → grayscale-collapsed single-frame CEUS adds little signal here; clinical findings are a cheaper, comparable privileged signal.
 
-## ⚠️ Limitations
+## Limitations
 
 Single centre · only 11 malignant test bags · bag labels broadcast to frames · ROI crops use **expert masks** (end-to-end with predicted U-Net masks not yet tested) · CV uses 1 seed per fold · loss weights chosen heuristically · some patients contribute several bags (handled with patient-grouped folds and cluster bootstrap) · p-values not multiplicity-corrected.
 
@@ -211,7 +211,7 @@ Single centre · only 11 malignant test bags · bag labels broadcast to frames �
 
 ---
 
-## 🚀 Reproduce
+## Reproduce
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
@@ -237,7 +237,7 @@ python -m experiments.cv                                                    # Pr
 python -m experiments.analyze && python -m experiments.analyze_cv && python -m experiments.paper_diagrams
 ```
 
-## 📁 Repository map
+## Repository Structure
 
 ```
 data/         loading, ROI cropping, mask handling, splits, EDA
